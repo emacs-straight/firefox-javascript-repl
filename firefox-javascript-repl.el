@@ -3,7 +3,7 @@
 ;; Copyright (C) 2023 Free Software Foundation, Inc.
 
 ;; Author: Thomas Fitzsimmons <fitzsim@fitzsim.org>
-;; Version: 0.9.3
+;; Version: 0.9.4
 ;; Package-Requires: ((emacs "26.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -480,7 +480,10 @@ localhost (127.0.0.1) TCP port 6000."
                                 (setq fjrepl--console-actor nil)
                                 (kill-buffer
                                  firefox-standard-output-buffer-name)
-                                (delete-directory profile-directory t))))
+                                (when (yes-or-no-p
+                                       (format "Delete %s recursively? "
+                                               profile-directory))
+                                  (delete-directory profile-directory t)))))
       (fjrepl--handle-first network-name comint-buffer-name nil)
       nil)))
 
